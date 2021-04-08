@@ -1,3 +1,4 @@
+const e = require("express");
 const Users = require("../users/users-model");
 
 function logger(req, res, next) {
@@ -28,11 +29,11 @@ const validateUserId = async (req, res, next) => {
 
 function validateUser(req, res, next) {
   // DO YOUR MAGIC
-  if (!req.body) {
-    res.status(400).json({ message: "missing user data" });
-  } else if (!req.body.name || !req.body.name.trim()) {
+  const { name } = req.body;
+  if (!name || !name.trim()) {
     res.status(400).json({ message: "missing required name field" });
   } else {
+    req.name = name.trim();
     next();
   }
 }
